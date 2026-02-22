@@ -139,7 +139,7 @@
   <section>
     <h2>Contact Form</h2>
     <p>Send us a message and we'll get back to you as soon as possible.</p>
-    <form id="contact-form" method="POST" action="/functions/api/contact.js">
+    <form id="contact-form" method="POST" action="api/contact">
     <ul style="list-style-type: none; padding: 0;">
       <li><label>
           Name
@@ -157,7 +157,8 @@
           Message
           <textarea name="message" required></textarea>
       </label></li>
-    <button type="submit">Send Request</button>
+      <li><button type="submit">Send Request</button></li>
+    </ul>
     </form>
   </section>
 
