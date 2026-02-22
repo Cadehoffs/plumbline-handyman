@@ -36,7 +36,7 @@ ${message}
         "Authorization": `Bearer ${RESEND_API_KEY}`
       },
       body: JSON.stringify({
-        from: "Contact Form <webform@contact.plhandymansolutions.com>",
+        from: "Contact Form <webform@contact.plumblinelincoln.com>",
         to: ["plhandymansolutions@gmail.com"],
         subject: "New Contact Form Submission",
         text: emailBody
