@@ -135,6 +135,32 @@
     <p style="margin-top:1rem; font-style: italic;">Contact form coming soon...</p>
   </section>
 
+  <!-- Contact form-->
+  <section>
+    <h2>Contact Form</h2>
+    <p>Send us a message and we'll get back to you as soon as possible.</p>
+    <form id="contact-form" method="POST" action="/api/contact">
+    <ul style="list-style-type: none; padding: 0;">
+      <li><label>
+          Name
+          <input type="text" name="name" required>
+      </label></li>
+      <li><label>
+          Email
+          <input type="email" name="email" required>
+      </label></li>
+      <li><label>
+          Phone
+          <input type="tel" name="phone">
+      </label></li>
+      <li><label>
+          Message
+          <textarea name="message" required></textarea>
+      </label></li>
+    <button type="submit">Send Request</button>
+    </form>
+  </section>
+
   <!-- Footer -->
   <footer>
     &copy; 2026 Plumb Line Handyman Solutions. All rights reserved.
