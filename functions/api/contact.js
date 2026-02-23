@@ -1,7 +1,4 @@
-export async function onRequestPost(context) {
-  console.log("Contact form endpoint hit");
-
-  try {
+export async function onRequestpost(context) {
     const formData = await context.request.formData();
 
     const name = formData.get("name");
@@ -9,51 +6,37 @@ export async function onRequestPost(context) {
     const phone = formData.get("phone");
     const message = formData.get("message");
 
-    console.log("Form data received:", name, email);
-
     const RESEND_API_KEY = context.env.RESEND_API_KEY;
 
-    if (!RESEND_API_KEY) {
-      console.log("Missing RESEND_API_KEY");
-      return new Response("Server configuration error", { status: 500 });
-    }
-
     const emailBody = `
-New Contact Request:
+        New Contact Request:
+        
+        Name: ${name}
+        Email: ${email}
+        Phone: ${phone}
 
-Name: ${name}
-Email: ${email}
-Phone: ${phone}
+        Message: 
+        ${message}
+    `;
 
-Message:
-${message}
-`;
+        // Send email using Resend API
+        const response = await fetch("https://api.resend.com/emails", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${RESEND_API_KEY}`
+            },
+            body: JSON.stringify({
+                from: "Contact Form <webform@contact.plumblinelincoln.com>",
+                to: ["plhandymansolutions@gmail.com"],
+                subject: "New Contact Form Submission",
+                text: emailBody
+            })
+        });
 
-    const response = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${RESEND_API_KEY}`
-      },
-      body: JSON.stringify({
-        from: "Contact Form <webform@contact.plumblinelincoln.com>",
-        to: ["plhandymansolutions@gmail.com"],
-        subject: "New Contact Form Submission",
-        text: emailBody
-      })
-    });
+        if (!response.ok) {
+            return new Response("Email failed to send. Please try again later.", { status: 500 });
+        }
 
-    const result = await response.text();
-    console.log("Resend response:", result);
-
-    if (!response.ok) {
-      return new Response("Email failed to send", { status: 500 });
+        return new Response("Form submitted successfully! Thank you for reaching out to us. We will get back to you as soon as possible.", { status: 200});
     }
-
-    return new Response("Success", { status: 200 });
-
-  } catch (err) {
-    console.log("Function error:", err);
-    return new Response("Server error", { status: 500 });
-  }
-}
